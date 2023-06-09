@@ -16,7 +16,7 @@ export function HomeNavigator() {
       <Stack.Screen
         component={DetailScreen}
         name={NAVIGATION.detail}
-        options={{headerShown: true}}
+        options={({route}) => ({title: route.params.name})}
       />
     </Stack.Navigator>
   );

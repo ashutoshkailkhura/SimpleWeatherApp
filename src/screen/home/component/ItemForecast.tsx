@@ -10,15 +10,17 @@ import {NAVIGATION} from '../../../constants';
 import moment from 'moment';
 
 export default function ItemForecast({navigation, item}) {
+  var day = moment(item.dt_txt).format('dddd');
   return (
     <Pressable
       onPress={() =>
         navigation.navigate(NAVIGATION.detail, {
-          day: moment(item.dt_txt).format('dddd'),
+          day: day,
           max: item.main.temp_max,
           min: item.main.temp_min,
           humidity: item.main.humidity,
           type: item.weather[0].description,
+          name: day,
         })
       }>
       <View style={styles.container}>
