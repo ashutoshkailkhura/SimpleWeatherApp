@@ -1,28 +1,26 @@
 import {useEffect, useState} from 'react';
 import axios from 'axios';
 import {SERVICE} from '../constants/index';
-import moment from 'moment';
 import {API_KEY} from '@env';
+import Geolocation from 'react-native-geolocation-service';
+import {requestLocationPermission} from './permission';
 
 export const useWeather = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
   const [city, setCity] = useState(null);
   const [error, setError] = useState('');
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
 
   const fetchData = async () => {
     axios
       .get(`${SERVICE.BASE_URL}`, {
         params: {
-          lat: 30.3165,
-          lon: 78.0322,
+          lat: lat,
+          lon: lng,
           appid: API_KEY,
           units: 'metric',
-          exclude: 'daily',
         },
       })
       .then(function (response) {
@@ -53,6 +51,29 @@ export const useWeather = () => {
         // always executed
       });
   };
+
+  useEffect(() => {
+    (async () => {
+      var allow = await requestLocationPermission();
+      if (allow) {
+        Geolocation.getCurrentPosition(
+          position => {
+            console.log('position lat ' + position.coords.latitude);
+            console.log('position lng ' + position.coords.longitude);
+            setLat(position.coords.latitude);
+            setLng(position.coords.longitude);
+          },
+          _error => {
+            // See error code charts below.
+            console.log(_error.code, _error.message);
+          },
+          {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+        );
+      }
+
+      await fetchData();
+    })();
+  }, [lat, lng]);
 
   return [isLoading, data, city, error];
 };

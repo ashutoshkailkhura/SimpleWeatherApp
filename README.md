@@ -10,6 +10,12 @@ API_KEY = 'XXXXXX......XX'
     src="./screenshot/pic_one.png?raw=true" width="150px" />
 </div>
 
+## Dependency
+
+    - https://github.com/zoontek/react-native-permissions
+    - https://github.com/Agontuk/react-native-geolocation-service
+    -
+
 ## TODO
 
-- [ ] get current user location
+- [ ] code refactor

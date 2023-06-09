@@ -14,9 +14,9 @@ export function HomeScreen({navigation}) {
   return (
     <View style={styles.container}>
       {isLoading ? (
-        LoaderView()
+        <LoaderView />
       ) : error ? (
-        ErrorView(error)
+        <ErrorView error={error} />
       ) : (
         <FlatList
           data={data}
