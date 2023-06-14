@@ -14,8 +14,8 @@ API_KEY = 'XXXXXX......XX'
 
     - https://github.com/zoontek/react-native-permissions
     - https://github.com/Agontuk/react-native-geolocation-service
-    -
+    - https://github.com/react-native-async-storage/async-storage
 
 ## TODO
 
-- [ ] code refactor
+- [ ] transform api data into five day forecast

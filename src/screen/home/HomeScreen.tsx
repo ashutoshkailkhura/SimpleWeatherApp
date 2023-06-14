@@ -7,8 +7,13 @@ import {LoaderView} from './component/LoaderView';
 import {ErrorView} from './component/ErrorView';
 import Header from './component/Header';
 import {useWeather} from '../../hooks/useWeather';
+import {NavigationAction} from '@react-navigation/native';
 
-export function HomeScreen({navigation}) {
+interface HomeScreenProps {
+  navigation: NavigationAction;
+}
+
+export function HomeScreen({navigation}: HomeScreenProps) {
   const [isLoading, data, city, error] = useWeather();
 
   return (
@@ -39,11 +44,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-// type listData = {
-//   maxTemp: string;
-//   minTemp: string;
-//   humidity: string;
-//   windSpeed: string;
-//   weatherType: string;
-// };

@@ -1,5 +1,10 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {NavigationAction, Route, RouteConfig} from '@react-navigation/native';
+
+// interface DetailScreenProps {
+//   route: RouteConfig;
+// }
 
 export function DetailScreen({route}) {
   const {day, max, min, humidity, type} = route.params;
