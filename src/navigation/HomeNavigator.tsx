@@ -5,6 +5,11 @@ import {NAVIGATION} from '../constants/navigation';
 
 const Stack = createNativeStackNavigator();
 
+interface DetailScreenParams {
+  name: string;
+  // Add other properties if necessary
+}
+
 export function HomeNavigator() {
   return (
     <Stack.Navigator>
@@ -16,7 +21,9 @@ export function HomeNavigator() {
       <Stack.Screen
         component={DetailScreen}
         name={NAVIGATION.detail}
-        options={({route}) => ({title: route.params.name})}
+        options={({route}) => ({
+          title: (route.params as DetailScreenParams)?.name ?? 'Detail',
+        })}
       />
     </Stack.Navigator>
   );

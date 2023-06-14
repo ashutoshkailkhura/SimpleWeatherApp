@@ -4,12 +4,13 @@ import {SERVICE} from '../constants/index';
 import {API_KEY} from '@env';
 import Geolocation from 'react-native-geolocation-service';
 import {PermissionsAndroid} from 'react-native';
+import {transformData} from './transforData';
 
 export const useWeather = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<TransformedData | null>(null);
   const [city, setCity] = useState(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string>('');
 
   const askPermission = async () => {
     var allow = false;
@@ -50,27 +51,15 @@ export const useWeather = () => {
         },
       })
       .then(function (response) {
-        // handle success
-        // var forecastData = [];
-        // for (let item of response.data.list) {
-        //   let day = moment(item.dt_txt).format('dddd');
-        //   console.log('day ' + day);
-        //   forecastData.push({
-        //     day: day,
-        //     max: item.main.temp_max,
-        //     min: item.main.temp_min,
-        //     humidity: item.main.temp_humidity,
-        //     type: item.weather[0].description,
-        //   });
-        // }
-        // console.log('forecast data ' + forecastData);
-        setData(response.data.list);
+        const apiResponse: ApiResponse = response.data;
+        const transformedData = transformData(apiResponse);
+        setData(transformedData);
         setCity(response.data.city.name);
         setIsLoading(false);
       })
       .catch(function (_error) {
         // handle error
-        setError('Error fetching data');
+        setError('Error : ' + _error.message);
         setIsLoading(false);
       })
       .finally(function () {

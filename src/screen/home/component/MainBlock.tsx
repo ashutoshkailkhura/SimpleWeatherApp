@@ -1,10 +1,14 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
-export default function Header({name}) {
+type MainBlockProps = {
+  mainBlockData: MainBlockData;
+};
+
+export default function MainBlock({mainBlockData}: MainBlockProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>{name}</Text>
+      <Text style={styles.header}>{mainBlockData.city}</Text>
     </View>
   );
 }

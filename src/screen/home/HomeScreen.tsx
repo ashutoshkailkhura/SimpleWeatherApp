@@ -1,13 +1,14 @@
-import {StyleSheet, View} from 'react-native';
+import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {FlatList} from 'react-native-gesture-handler';
+import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import ItemNoData from './component/ItemNoData';
 import ItemForecast from './component/ItemForecast';
-import {LoaderView} from './component/LoaderView';
-import {ErrorView} from './component/ErrorView';
+import {LoaderView} from '../component/LoaderView';
+import {ErrorView} from '../component/ErrorView';
 import Header from './component/Header';
 import {useWeather} from '../../hooks/useWeather';
 import {NavigationAction} from '@react-navigation/native';
+import MainBlock from './component/MainBlock';
 
 interface HomeScreenProps {
   navigation: NavigationAction;
@@ -16,14 +17,35 @@ interface HomeScreenProps {
 export function HomeScreen({navigation}: HomeScreenProps) {
   const [isLoading, data, city, error] = useWeather();
 
-  return (
-    <View style={styles.container}>
-      {isLoading ? (
-        <LoaderView />
-      ) : error ? (
-        <ErrorView error={error} />
-      ) : (
-        <FlatList
+  // return (
+  //   <View style={styles.container}>
+  //     {isLoading ? (
+  //       <LoaderView />
+  //     ) : error ? (
+  //       <ErrorView errMsg={error} />
+  //     ) : (
+  //       <Text>{data}</Text>
+  //     )}
+  //   </View>
+  // );
+
+  if (error) {
+    <ErrorView errMsg={error} />;
+  }
+  if (isLoading) {
+    return <LoaderView />;
+  }
+  if (data) {
+    return (
+      <View style={styles.container}>
+        <MainBlock mainBlockData={data.mainBlockData} />
+      </View>
+    );
+  }
+}
+
+/*
+<FlatList
           data={data}
           renderItem={({item}) => (
             <ItemForecast item={item} navigation={navigation} />
@@ -32,10 +54,7 @@ export function HomeScreen({navigation}: HomeScreenProps) {
           ListEmptyComponent={ItemNoData}
           ListHeaderComponent={<Header name={city} />}
         />
-      )}
-    </View>
-  );
-}
+*/
 
 const styles = StyleSheet.create({
   container: {
