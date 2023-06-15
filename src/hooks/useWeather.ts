@@ -9,7 +9,6 @@ import {transformData} from './transforData';
 export const useWeather = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<TransformedData | null>(null);
-  const [city, setCity] = useState(null);
   const [error, setError] = useState<string>('');
 
   const askPermission = async () => {
@@ -54,7 +53,6 @@ export const useWeather = () => {
         const apiResponse: ApiResponse = response.data;
         const transformedData = transformData(apiResponse);
         setData(transformedData);
-        setCity(response.data.city.name);
         setIsLoading(false);
       })
       .catch(function (_error) {
@@ -94,5 +92,5 @@ export const useWeather = () => {
     })();
   }, []);
 
-  return [isLoading, data, city, error];
+  return [isLoading, data, error];
 };
